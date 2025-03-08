@@ -1,6 +1,9 @@
 package com.digital_foundries.mock_image_metadata_service.ImageMetadata;
 
+import com.digital_foundries.mock_image_metadata_service.repository.ImageMetadataRepository;
 import org.springframework.stereotype.Component;
+
+import java.awt.*;
 
 @Component
 public class ImageMetadataTransformer {
@@ -24,17 +27,8 @@ public class ImageMetadataTransformer {
 
     // Convert DTO to Entity
     public ImageMetadataEntity toEntity(ImageMetadataDto dto) {
-        return new ImageMetadataEntity(
-                dto.getId(),
-                dto.getOwnerId(),
-                dto.getImageId(),
-                dto.getCreatedAt(),
-                dto.getSize(),
-                dto.getFormat(),
-                dto.getExifData(),
-                dto.getResolution(),
-                dto.getColorMode(),
-                dto.getBitDepth()
-        );
+        ImageMetadataEntity entity = new ImageMetadataEntity();
+        entity.setId(dto.getId());
+        return entity;
     }
 }
