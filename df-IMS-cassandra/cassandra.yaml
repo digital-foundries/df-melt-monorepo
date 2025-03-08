@@ -1,0 +1,34 @@
+cluster_name: 'LocalCluster'
+
+# Address settings
+listen_address: 0.0.0.0
+broadcast_address: 127.0.0.1
+rpc_address: 0.0.0.0
+broadcast_rpc_address: 127.0.0.1
+
+# Seed nodes (for single-node setup, use the same node)
+seed_provider:
+  - class_name: org.apache.cassandra.locator.SimpleSeedProvider
+    parameters:
+      - seeds: "127.0.0.1"
+
+# Enable authentication (optional)
+authenticator: AllowAllAuthenticator
+authorizer: AllowAllAuthorizer
+
+# Data directories
+data_file_directories:
+  - /var/lib/cassandra/data
+
+commitlog_directory: /var/lib/cassandra/commitlog
+hints_directory: /var/lib/cassandra/hints
+saved_caches_directory: /var/lib/cassandra/saved_caches
+
+# Auto-bootstrap (useful for multi-node, but false for single-node)
+auto_bootstrap: false
+
+# Default keyspace settings
+endpoint_snitch: GossipingPropertyFileSnitch
+
+# Set replication factor for testing
+num_tokens: 16

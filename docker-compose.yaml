@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  cassandra:
+    image: cassandra:latest
+    container_name: cassandra
+    ports:
+      - "9042:9042"
+    environment:
+      - CASSANDRA_USER=cassandra
+      - CASSANDRA_PASSWORD=cassandra
+    volumes:
+      - cassandra-data:/var/lib/cassandra
+
+  spring-app:
+    build: ./df-mock-img-metadata-service
+    container_name: image-metadata-service
+    depends_on:
+      - cassandra
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=cassandra://cassandra-db:9042
+      - SPRING_PROFILES_ACTIVE=docker
+
+volumes:
+  cassandra-data:
+
+networks:
+  cassandra-network:
+    driver: bridge

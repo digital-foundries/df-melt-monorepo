@@ -1,0 +1,6 @@
+Image metadata entity represents the metadata of an image that is stored elsewhere.
+
+its basic structure is
+
+{ "id": 1234,"ownedId":4321, "createdAt":timestampinUTC", size:"1234mb", format:"asdf", exif_data:"xyz", "resolution":"1234x1234",
+"color_mode":"rgb", "bit_depth":"8-bit"}
