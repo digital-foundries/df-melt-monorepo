@@ -22,13 +22,14 @@ Implementing auth
 Metrics being outputted to Prometheus
 
 By here we should have a system that runs with a simple docker-compose, and is able to fulfill all the functional
-requirements on the system.
+requirements of the system.
 -----------------------------------------------
 
 2nd stage:
 
 Centralized logging
-GrafanaAPI Gateway
+Grafana
+API Gateway
 Setting up the system (non-scalably) on k8s
 
 
