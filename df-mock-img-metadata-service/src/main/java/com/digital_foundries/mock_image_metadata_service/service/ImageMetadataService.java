@@ -18,11 +18,16 @@ import java.sql.SQLException;
 public class ImageMetadataService {
 
 
-    @Autowired
+    final
     ImageMetadataRepository imageMetadataRepository;
 
-    @Autowired
+    final
     ImageMetadataTransformer imageMetadataTransformer;
+
+    public ImageMetadataService(ImageMetadataRepository imageMetadataRepository, ImageMetadataTransformer imageMetadataTransformer) {
+        this.imageMetadataRepository = imageMetadataRepository;
+        this.imageMetadataTransformer = imageMetadataTransformer;
+    }
 
 
     public ImageMetadataDto createImageMetadata(ImageMetadataDto imageMetadataDto) throws SQLException {

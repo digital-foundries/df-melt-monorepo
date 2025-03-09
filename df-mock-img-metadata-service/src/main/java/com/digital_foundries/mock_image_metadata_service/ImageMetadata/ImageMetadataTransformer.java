@@ -12,9 +12,8 @@ public class ImageMetadataTransformer {
     // Convert Entity to DTO
     public ImageMetadataDto toDTO(ImageMetadataEntity entity) {
         return new ImageMetadataDto(
-                entity.getId(),
-                entity.getOwnerId(),
                 entity.getImageId(),
+                entity.getOwnerId(),
                 entity.getCreatedAt(),
                 entity.getSize(),
                 entity.getFormat(),
@@ -28,7 +27,7 @@ public class ImageMetadataTransformer {
     // Convert DTO to Entity
     public ImageMetadataEntity toEntity(ImageMetadataDto dto) {
         ImageMetadataEntity entity = new ImageMetadataEntity();
-        entity.setId(dto.getId());
+        entity.setImageId(dto.getImageId());
         return entity;
     }
 }

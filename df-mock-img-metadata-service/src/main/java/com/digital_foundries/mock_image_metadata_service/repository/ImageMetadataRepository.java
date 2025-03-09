@@ -13,4 +13,5 @@ public interface ImageMetadataRepository extends CassandraRepository<ImageMetada
     // Additional query methods can be defined here if needed
 
     Page<ImageMetadataEntity> findByUserId(Long userId, Pageable pageable);
+
 }
