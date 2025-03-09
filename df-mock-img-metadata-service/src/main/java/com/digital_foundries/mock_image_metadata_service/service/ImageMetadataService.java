@@ -39,8 +39,8 @@ public class ImageMetadataService {
 
     public ImageMetadataDto find(Long id) throws SQLException {
         return imageMetadataRepository.findById(id)
-                .map(imageMetadataTransformer::toDTO) // ✅ Uses Optional.map() to transform directly
-                .orElseThrow(() -> new EntityNotFoundException("Metadata not found for ID: " + id)); // ✅ Returns null if not found (or you can throw an exception)
+                .map(imageMetadataTransformer::toDTO)
+                .orElseThrow(() -> new EntityNotFoundException("Metadata not found for ID: " + id));
     }
 
 
