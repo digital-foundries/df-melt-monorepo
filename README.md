@@ -2,7 +2,7 @@ digital foundries melt monorepo
 
 Hello!
 
-Melt is my study-level pseudo-Instagram system.
+Melt is my study-level image store system.
 
 Its main functionalities are storing and delivering images in a scalable scale.
 

@@ -1,19 +1,16 @@
-package com.digital_foundries.mock_image_metadata_service;
+package com.digital_foundries.mock_image_metadata_service.ImageMetadata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.digital_foundries.mock_image_metadata_service.ImageMetadata.ImageMetadataDto;
-import com.digital_foundries.mock_image_metadata_service.ImageMetadata.ImageMetadataEntity;
-import com.digital_foundries.mock_image_metadata_service.ImageMetadata.ImageMetadataTransformer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.Instant;
 
 class ImageMetadataTransformerTest {
 
     private ImageMetadataTransformer transformer;
+
 
     @BeforeEach
     void setUp() {
@@ -22,16 +19,18 @@ class ImageMetadataTransformerTest {
 
     @Test
     void testToDTO() {
+
+        ImageMetadataPrimaryKey key = new ImageMetadataPrimaryKey(1L, 100L);
         ImageMetadataEntity entity = new ImageMetadataEntity(
-                1L, 100L, Instant.now(), "500mb", "JPEG",
+                key, Instant.now(), "500mb", "JPEG",
                 "EXIF_DATA", "1920x1080", "RGB", "24"
         );
 
         ImageMetadataDto dto = transformer.toDTO(entity);
 
         assertThat(dto).isNotNull();
-        assertThat(dto.getOwnerId()).isEqualTo(entity.getOwnerId());
-        assertThat(dto.getImageId()).isEqualTo(entity.getImageId());
+        assertThat(dto.getOwnerId()).isEqualTo(entity.getKey().getOwnerId());
+        assertThat(dto.getImageId()).isEqualTo(entity.getKey().getImageId());
         assertThat(dto.getCreatedAt()).isEqualTo(entity.getCreatedAt());
         assertThat(dto.getSize()).isEqualTo(entity.getSize());
         assertThat(dto.getFormat()).isEqualTo(entity.getFormat());
@@ -51,7 +50,16 @@ class ImageMetadataTransformerTest {
         ImageMetadataEntity entity = transformer.toEntity(dto);
 
         assertThat(entity).isNotNull();
-        assertThat(entity.getImageId()).isNotNull();
-        assertThat(entity.getOwnerId()).isNull();
+        assertThat(entity.getKey().getImageId()).isNotNull();
+        assertThat(entity.getKey().getOwnerId()).isNotNull();
+        assertThat(entity.getBitDepth()).isNotNull();
+        assertThat(entity.getCreatedAt()).isNotNull();
+        assertThat(entity.getSize()).isNotNull();
+        assertThat(entity.getFormat()).isNotNull();
+        assertThat(entity.getExifData()).isNotNull();
+        assertThat(entity.getResolution()).isNotNull();
+        assertThat(entity.getColorMode()).isNotNull();
+        assertThat(entity.getExifData()).isNotNull();
+        
     }
 }

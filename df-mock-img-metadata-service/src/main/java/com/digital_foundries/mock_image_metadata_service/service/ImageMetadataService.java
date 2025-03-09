@@ -6,10 +6,9 @@ import com.digital_foundries.mock_image_metadata_service.ImageMetadata.ImageMeta
 import com.digital_foundries.mock_image_metadata_service.ImageMetadata.ImageMetadataTransformer;
 import com.digital_foundries.mock_image_metadata_service.exception.EntityNotFoundException;
 import com.digital_foundries.mock_image_metadata_service.repository.ImageMetadataRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -30,7 +29,10 @@ public class ImageMetadataService {
     }
 
 
-    public ImageMetadataDto createImageMetadata(ImageMetadataDto imageMetadataDto) throws SQLException {
+    public ImageMetadataDto createImageMetadata(ImageMetadataDto imageMetadataDto) throws SQLException, DuplicateKeyException {
+        if (imageMetadataRepository.existsById(imageMetadataDto.getImageId())) {
+            throw new DuplicateKeyException("Image metadata already exists with this id" + imageMetadataDto.getImageId());
+        }
         return imageMetadataTransformer.toDTO(imageMetadataRepository.save(imageMetadataTransformer.toEntity(imageMetadataDto)));
     }
 
@@ -42,9 +44,9 @@ public class ImageMetadataService {
     }
 
 
-    public Page<ImageMetadataDto> getByUserId(Long userId, Pageable pageable) throws SQLException {
-        Page<ImageMetadataEntity> entityPage = imageMetadataRepository.findByUserId(userId, pageable);
-        return entityPage.map((entity) -> imageMetadataTransformer.toDTO(entity));
+    public Slice<ImageMetadataDto> getByOwnerId(Long userId, Pageable pageable) throws SQLException {
+        Slice<ImageMetadataEntity> entityPage = imageMetadataRepository.findByKeyOwnerId(userId, pageable);
+        return entityPage.map(imageMetadataTransformer::toDTO);
     }
 
 }

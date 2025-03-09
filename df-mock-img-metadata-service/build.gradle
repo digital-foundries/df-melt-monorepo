@@ -30,6 +30,13 @@ dependencies {
     implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
+    //these are needed for input validation
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+    implementation 'org.glassfish:jakarta.el:4.0.2'
+
+    //for using instant with the input, jackson cant unseriallize instant without this
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.0'
+
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

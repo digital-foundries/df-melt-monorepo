@@ -15,8 +15,7 @@ import java.time.Instant;
 public class ImageMetadataEntity {
 
     @PrimaryKey
-    private Long imageId;
-    private Long ownerId;
+    ImageMetadataPrimaryKey key;
 
     private Instant createdAt;
     private String size;
