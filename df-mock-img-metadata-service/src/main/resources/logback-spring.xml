@@ -5,8 +5,14 @@
             </pattern>
         </encoder>
     </appender>
+    <appender name="ELASTIC_TCP" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>localhost:5000</destination> <!-- Logstash TCP input -->
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
 
     <root level="info">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ELASTIC_TCP"/>
     </root>
 </configuration>
+

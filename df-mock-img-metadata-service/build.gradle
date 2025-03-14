@@ -37,6 +37,9 @@ dependencies {
     //for using instant with the input, jackson cant unseriallize instant without this
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.0'
 
+    //centralized logging
+    implementation 'net.logstash.logback:logstash-logback-encoder:7.4'
+
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

@@ -70,16 +70,16 @@ class ImageMetadataControllerTest {
     @Test
     void testGetDto_ValidId_ShouldReturn200() throws Exception {
         ImageMetadataDto responseDto = new ImageMetadataDto(1L, 2L, Instant.now(), "1024x768", "JPEG", "Some EXIF", "1920x1080", "RGB", "8");
-        when(imageMetadataService.find(1L)).thenReturn(responseDto);
+        when(imageMetadataService.find(2L, 1L)).thenReturn(responseDto);
 
-        mockMvc.perform(get("/api/v1/image-metadata/1"))
+        mockMvc.perform(get("/api/v1/image-metadata/2/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.imageId").value(1));
     }
 
     @Test
     void testGetDto_NotFound_ShouldReturn404() throws Exception {
-        when(imageMetadataService.find(1L)).thenReturn(null);
+        when(imageMetadataService.find(1L, 1L)).thenReturn(null);
 
         mockMvc.perform(get("/api/v1/image-metadata/1"))
                 .andExpect(status().isNotFound());

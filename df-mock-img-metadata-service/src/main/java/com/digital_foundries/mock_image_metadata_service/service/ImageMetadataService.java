@@ -3,6 +3,7 @@ package com.digital_foundries.mock_image_metadata_service.service;
 
 import com.digital_foundries.mock_image_metadata_service.ImageMetadata.ImageMetadataDto;
 import com.digital_foundries.mock_image_metadata_service.ImageMetadata.ImageMetadataEntity;
+import com.digital_foundries.mock_image_metadata_service.ImageMetadata.ImageMetadataPrimaryKey;
 import com.digital_foundries.mock_image_metadata_service.ImageMetadata.ImageMetadataTransformer;
 import com.digital_foundries.mock_image_metadata_service.exception.EntityNotFoundException;
 import com.digital_foundries.mock_image_metadata_service.repository.ImageMetadataRepository;
@@ -30,22 +31,22 @@ public class ImageMetadataService {
 
 
     public ImageMetadataDto createImageMetadata(ImageMetadataDto imageMetadataDto) throws SQLException, DuplicateKeyException {
-        if (imageMetadataRepository.existsById(imageMetadataDto.getImageId())) {
+        if (imageMetadataRepository.existsById(new ImageMetadataPrimaryKey(imageMetadataDto.getImageId(), imageMetadataDto.getOwnerId()))) {
             throw new DuplicateKeyException("Image metadata already exists with this id" + imageMetadataDto.getImageId());
         }
         return imageMetadataTransformer.toDTO(imageMetadataRepository.save(imageMetadataTransformer.toEntity(imageMetadataDto)));
     }
 
 
-    public ImageMetadataDto find(Long id) throws SQLException {
-        return imageMetadataRepository.findById(id)
+    public ImageMetadataDto find(Long imageId, Long ownerId) throws SQLException {
+        return imageMetadataRepository.findById(new ImageMetadataPrimaryKey(imageId, ownerId))
                 .map(imageMetadataTransformer::toDTO)
-                .orElseThrow(() -> new EntityNotFoundException("Metadata not found for ID: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Metadata not found for PK: " + new ImageMetadataPrimaryKey(imageId, ownerId)));
     }
 
 
-    public Slice<ImageMetadataDto> getByOwnerId(Long userId, Pageable pageable) throws SQLException {
-        Slice<ImageMetadataEntity> entityPage = imageMetadataRepository.findByKeyOwnerId(userId, pageable);
+    public Slice<ImageMetadataDto> getByOwnerId(Long ownerId, Pageable pageable) throws SQLException {
+        Slice<ImageMetadataEntity> entityPage = imageMetadataRepository.findByKeyOwnerId(ownerId, pageable);
         return entityPage.map(imageMetadataTransformer::toDTO);
     }
 

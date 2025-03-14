@@ -6,7 +6,6 @@ import com.digital_foundries.mock_image_metadata_service.service.ImageMetadataSe
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
@@ -66,10 +65,10 @@ class ImageMetadataController {
 
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getDto(@PathVariable Long id) {
+    @GetMapping("{ownerId}/{imageId}")
+    public ResponseEntity<?> getDto(@PathVariable Long ownerId, @PathVariable Long imageId) {
         try {
-            ImageMetadataDto dto = imageMetadataService.find(id);
+            ImageMetadataDto dto = imageMetadataService.find(ownerId, imageId);
             if (dto == null) {
                 return ResponseEntity.notFound().build();
             }
