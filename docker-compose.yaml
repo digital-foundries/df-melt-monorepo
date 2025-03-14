@@ -12,8 +12,8 @@ services:
     volumes:
       - cassandra-data:/var/lib/cassandra
 
-  spring-app:
-    build: ./df-mock-img-metadata-service
+  image-metadata-service:
+    build: ./img-metadata-service
     container_name: image-metadata-service
     depends_on:
       - cassandra
@@ -59,13 +59,30 @@ services:
       - elasticsearch
     networks:
       - elk
-
-
+  etcd:
+    image: gcr.io/etcd-development/etcd:v3.5.9  # Use the latest available version
+    container_name: etcd
+    restart: always
+    ports:
+      - "2379:2379"  # Client communication port
+      - "2380:2380"  # Peer communication port (for clustering)
+    command: |
+      etcd --name etcd-node \
+           --data-dir /etcd-data \
+           --listen-client-urls http://0.0.0.0:2379 \
+           --advertise-client-urls http://0.0.0.0:2379 \
+           --listen-peer-urls http://0.0.0.0:2380 \
+           --initial-advertise-peer-urls http://0.0.0.0:2380 \
+           --initial-cluster etcd-node=http://0.0.0.0:2380 \
+           --initial-cluster-state new \
+           --initial-cluster-token etcd-cluster
+    volumes:
+      - etcd-data:/etcd-data
 
 volumes:
   cassandra-data:
   esdata:
-
+  etcd-data:
 
 networks:
   cassandra-network:
